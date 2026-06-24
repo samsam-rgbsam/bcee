@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bcee.invalid/schemas/customer-risk-policy-1.0.0.json",
+  "title": "BCEE Customer Risk Policy",
+  "description": "No field has a live-risk default. Decimal values are strings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "policy_id", "effective_at",
+    "jurisdiction_and_eligibility_confirmed", "permitted_account",
+    "permitted_instruments", "permitted_symbols_or_classes",
+    "maximum_account_exposure", "maximum_campaign_exposure",
+    "maximum_risk_per_campaign", "maximum_monetary_loss_per_campaign",
+    "maximum_daily_loss", "maximum_rolling_loss", "rolling_loss_window",
+    "maximum_acceptable_drawdown", "maximum_customer_permitted_leverage",
+    "minimum_required_net_profit", "maximum_concurrent_campaigns",
+    "permitted_trading_sessions", "emergency_close_policy",
+    "production_automation_authorization", "data_retention_period",
+    "log_retention_period", "system_tray_permitted",
+    "automatic_startup_permitted", "compliance_acknowledgement", "approver"
+  ],
+  "$defs": {
+    "decimalString": {"type": "string", "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"},
+    "positiveDecimalString": {"type": "string", "pattern": "^(0*[1-9][0-9]*|0*\\.[0-9]*[1-9][0-9]*)$"},
+    "money": {
+      "type": "object", "additionalProperties": false,
+      "required": ["amount", "asset"],
+      "properties": {
+        "amount": {"$ref": "#/$defs/decimalString"},
+        "asset": {"type": "string", "minLength": 1}
+      }
+    },
+    "duration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": {"type": "integer", "minimum": 1},
+        "unit": {"enum": ["minutes", "hours", "days"]}
+      }
+    },
+    "session": {
+      "type": "object", "additionalProperties": false,
+      "required": ["timezone", "days", "start_local", "end_local"],
+      "properties": {
+        "timezone": {"type": "string", "minLength": 1},
+        "days": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]}},
+        "start_local": {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"},
+        "end_local": {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "policy_id": {"type": "string", "minLength": 1},
+    "effective_at": {"type": "string", "format": "date-time"},
+    "jurisdiction_and_eligibility_confirmed": {"const": true},
+    "permitted_account": {
+      "type": "object", "additionalProperties": false,
+      "required": ["environment", "account_profile_hash"],
+      "properties": {
+        "environment": {"enum": ["TESTNET", "LIVE"]},
+        "account_profile_hash": {"type": "string", "minLength": 16}
+      }
+    },
+    "permitted_instruments": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"const": "BINANCE_USD_M_FUTURES"}},
+    "permitted_symbols_or_classes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy_type", "values"],
+      "properties": {
+        "policy_type": {"enum": ["ALLOW_LIST", "CLASS_RULES"]},
+        "values": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "maximum_account_exposure": {"$ref": "#/$defs/money"},
+    "maximum_campaign_exposure": {"$ref": "#/$defs/money"},
+    "maximum_risk_per_campaign": {"$ref": "#/$defs/money"},
+    "maximum_monetary_loss_per_campaign": {"$ref": "#/$defs/money"},
+    "maximum_daily_loss": {"$ref": "#/$defs/money"},
+    "maximum_rolling_loss": {"$ref": "#/$defs/money"},
+    "rolling_loss_window": {"$ref": "#/$defs/duration"},
+    "maximum_acceptable_drawdown": {"$ref": "#/$defs/decimalString"},
+    "maximum_customer_permitted_leverage": {"$ref": "#/$defs/positiveDecimalString"},
+    "minimum_required_net_profit": {"$ref": "#/$defs/money"},
+    "maximum_concurrent_campaigns": {"type": "integer", "minimum": 1},
+    "permitted_trading_sessions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/session"}},
+    "emergency_close_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["operator_confirmation_when_available", "automatic_close_when_unprotected", "market_close_permitted_for_urgent_risk"],
+      "properties": {
+        "operator_confirmation_when_available": {"type": "boolean"},
+        "automatic_close_when_unprotected": {"type": "boolean"},
+        "market_close_permitted_for_urgent_risk": {"type": "boolean"}
+      }
+    },
+    "production_automation_authorization": {"const": true},
+    "data_retention_period": {"$ref": "#/$defs/duration"},
+    "log_retention_period": {"$ref": "#/$defs/duration"},
+    "system_tray_permitted": {"type": "boolean"},
+    "automatic_startup_permitted": {"type": "boolean"},
+    "compliance_acknowledgement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["document_version", "accepted_at", "accepted_by"],
+      "properties": {
+        "document_version": {"type": "string", "minLength": 1},
+        "accepted_at": {"type": "string", "format": "date-time"},
+        "accepted_by": {"type": "string", "minLength": 1}
+      }
+    },
+    "approver": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "approved_at", "approval_record_hash"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "approved_at": {"type": "string", "format": "date-time"},
+        "approval_record_hash": {"type": "string", "minLength": 32}
+      }
+    }
+  }
+}
