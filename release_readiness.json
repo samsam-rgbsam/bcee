@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "application_version": "0.0.0-gate0",
+  "generated_at": "2026-06-23T00:00:00Z",
+  "development_gate": 0,
+  "gate_decisions": {
+    "gate_0": {
+      "status": "REJECTED",
+      "blocking_issues": [
+        "Required customer risk policy is absent.",
+        "Authenticated Binance account behavior is unverified.",
+        "Conditional-order documentation conflict remains unresolved.",
+        "No clean Windows or Python 3.14.6 execution test has run.",
+        "No dependency lock or transitive SBOM exists.",
+        "No replay, model, paper, shadow, testnet, or live validation exists."
+      ]
+    },
+    "gate_1": {"status": "NOT_STARTED"},
+    "gate_2": {"status": "NOT_STARTED"},
+    "gate_3": {"status": "NOT_STARTED"},
+    "gate_4": {"status": "NOT_STARTED"},
+    "gate_5": {"status": "NOT_STARTED"},
+    "gate_6": {"status": "NOT_STARTED"},
+    "gate_7": {"status": "NOT_STARTED"},
+    "gate_8": {"status": "NOT_STARTED"},
+    "gate_9": {"status": "NOT_STARTED"}
+  },
+  "live_trading": {
+    "state": "LOCKED",
+    "orders_permitted": false,
+    "operator_override_permitted": false,
+    "reason_codes": [
+      "GATE_0_NOT_PASSED",
+      "CUSTOMER_POLICY_MISSING",
+      "ACCOUNT_UNVERIFIED",
+      "DEPENDENCIES_UNLOCKED",
+      "WINDOWS_UNTESTED",
+      "CONTRACT_TESTS_MISSING",
+      "MODEL_UNAPPROVED",
+      "RECONCILIATION_UNIMPLEMENTED"
+    ]
+  },
+  "checks": {
+    "python_compatibility": {"status": "PROVISIONAL", "blocking": true, "evidence": ["docs/operations/windows-python-compatibility-matrix.md"]},
+    "windows_compatibility": {"status": "NOT_TESTED", "blocking": true, "evidence": ["docs/operations/windows-python-compatibility-matrix.md"]},
+    "dependency_lock": {"status": "NOT_STARTED", "blocking": true},
+    "dependency_security": {"status": "NOT_STARTED", "blocking": true},
+    "licensing": {"status": "PROVISIONAL", "blocking": true, "evidence": ["docs/licensing/third-party-licensing-report.md"]},
+    "binance_api_compatibility": {"status": "PARTIAL_VERIFIED", "blocking": true, "evidence": ["docs/binance/api-compatibility-matrix.md"]},
+    "unit_tests": {"status": "NOT_STARTED", "blocking": true},
+    "property_tests": {"status": "NOT_STARTED", "blocking": true},
+    "contract_tests": {"status": "NOT_STARTED", "blocking": true},
+    "integration_tests": {"status": "NOT_STARTED", "blocking": true},
+    "fault_tests": {"status": "NOT_STARTED", "blocking": true},
+    "windows_tests": {"status": "NOT_STARTED", "blocking": true},
+    "request_budget_tests": {"status": "NOT_STARTED", "blocking": true},
+    "account_configuration": {"status": "NOT_STARTED", "blocking": true},
+    "customer_risk_policy": {"status": "NOT_STARTED", "blocking": true},
+    "reconciliation": {"status": "NOT_STARTED", "blocking": true},
+    "model_approval": {"status": "NOT_STARTED", "blocking": true},
+    "baseline_comparison": {"status": "NOT_STARTED", "blocking": true},
+    "paper_validation": {"status": "NOT_STARTED", "blocking": true},
+    "shadow_validation": {"status": "NOT_STARTED", "blocking": true},
+    "testnet_validation": {"status": "NOT_STARTED", "blocking": true},
+    "live_minimum_size_validation": {"status": "NOT_STARTED", "blocking": true},
+    "compliance_acknowledgement": {"status": "NOT_STARTED", "blocking": true}
+  },
+  "attestation": {
+    "profitability_promised": false,
+    "fabricated_test_results": false,
+    "production_credentials_accessed": false,
+    "production_orders_submitted": false
+  }
+}
