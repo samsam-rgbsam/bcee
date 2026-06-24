@@ -1,0 +1,18 @@
+[project]
+name = "bcee"
+version = "0.0.0"
+description = "Gated Windows/Python Binance USD-M Futures campaign platform"
+requires-python = "==3.14.*"
+readme = "README.md"
+license = { text = "All rights reserved; project license not yet selected" }
+authors = []
+dependencies = []
+
+[tool.bcee]
+phase = "gate-0"
+trading_mode = "LIVE_LOCKED"
+production_execution_present = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
